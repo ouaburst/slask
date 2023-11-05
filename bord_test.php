@@ -22,7 +22,8 @@ if (isset($_GET['change_day'])){
 
 if (isset($_GET['makuleraSwhish'])){
 	
-	db_connect("INSERT INTO remail (email, bokningsnr, time) VALUES ('MAKULERA SERVERING', '$boknr', NOW())");	
+	db_connect("INSERT INTO remail (email, bokningsnr, time) VALUES ('MAKULERA SERVERING', '$boknr',
+ NOW())");	
 
 }
 
@@ -54,7 +55,8 @@ if (isset($_GET['login'])){
 		$bord = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 LIMIT 1");
 		if (mysql_num_rows($bord) == 0){
 		
-			echo "error||<span class='error'><img src='Bilder/down.gif.png'>Inga lediga bord hittades</span>";
+			echo "error||<span class='error'><img src='Bilder/down.gif.png'>Inga lediga bord
+ hittades</span>";
 			
 			exit;
 		}
@@ -121,8 +123,10 @@ if (isset($_GET['login'])){
 		$id = $_GET['kundnr'];
 		$email = $_GET['email'];
 		
-		//$sql = db_connect("SELECT * FROM customer WHERE teleno = '$id' AND email = '$email' ORDER BY teleno ASC LIMIT 1");		
-		$sql = db_connect("SELECT * FROM customer WHERE (teleno = '$id' OR losen = '$id') AND email = '$email' ORDER BY teleno ASC LIMIT 1");
+		//$sql = db_connect("SELECT * FROM customer WHERE teleno = '$id' AND email = '$email' ORDER BY
+ teleno ASC LIMIT 1");		
+		$sql = db_connect("SELECT * FROM customer WHERE (teleno = '$id' OR losen = '$id') AND email =
+ '$email' ORDER BY teleno ASC LIMIT 1");
 		
 		//Ingen kund hittades
 		if (mysql_num_rows($sql) == 0){
@@ -186,7 +190,8 @@ if (isset($_GET['login'])){
 		   ?>
 			<tr class="b_box_extra">
 			  <td height="29" class="b_box_extra">&nbsp;</td>
-			  <td align="center" class="b_box_extra"><p class="style1">Du har <?php echo $antal_gammla; ?> tidigare bokningar, <a href="?old">Visa > </a> </p></td>
+			  <td align="center" class="b_box_extra"><p class="style1">Du har <?php echo $antal_gammla; ?>
+ tidigare bokningar, <a href="?old">Visa > </a> </p></td>
 			  <td class="b_box_extra">&nbsp;</td>
 			  </tr>
 			  <?php } ?>
@@ -219,7 +224,8 @@ if (isset($_GET['old_pay']) && !empty($_GET['old_pay'])){
 	// =========== Dibs easy pay ============
 	
 	$amount = mysql_result($sql, 0, 'totsum');
-	header("Location: https://shopwps.evarydberg.se/dibs_betala_bord_test.php?amount=$amount&orderid=$orderid");
+	header("Location:
+ https://shopwps.evarydberg.se/dibs_betala_bord_test.php?amount=$amount&orderid=$orderid");
 
 	// =========== Swish betalning ============
 	
@@ -229,7 +235,9 @@ if (isset($_GET['old_pay']) && !empty($_GET['old_pay'])){
 if (isset($_GET['del_old_bord'])){
 	
 	$boknr = $_GET['del_old_bord'];
-	db_connect("UPDATE borden SET bokningsnr = 0, kundnr = 0, antpers = 0, bokningsnrbiljett = 0, betald = 0, bokadtid = 0, min = 0 WHERE bokningsnr = '$boknr' AND kundnr = '{$_SESSION['custid']}' AND betald < 4");
+	db_connect("UPDATE borden SET bokningsnr = 0, kundnr = 0, antpers = 0, bokningsnrbiljett = 0,
+ betald = 0, bokadtid = 0, min = 0 WHERE bokningsnr = '$boknr' AND kundnr = '{$_SESSION['custid']}'
+ AND betald < 4");
 	
         //db_connect("DELETE from servering WHERE boknr = '$boknr' ");
 	db_connect("UPDATE servering SET betalsatt = 0 WHERE boknr = '$boknr' ");
@@ -256,11 +264,12 @@ if (isset($_GET['accept_old_new_show_state'])){
 	$datum = mysql_result($sql, 0, 'datum');
 	$namn = mysql_result($sql, 0, 'namn');	
 	
-	if ($timer == "60") $tid = "Tid: 60 min innan föreställning";
-	if ($timer == "30") $tid = "Tid: 30 min innan föreställning";
-	if ($timer == "0") $tid = "Tid: Under pausen av föreställningen";
+	if ($timer == "60") $tid = "Tid: 60 min innan f&ouml;rest&auml;llning";
+	if ($timer == "30") $tid = "Tid: 30 min innan f&ouml;rest&auml;llning";
+	if ($timer == "0") $tid = "Tid: Under pausen av f&ouml;rest&auml;llningen";
 	
-	$sql = db_connect("SELECT * FROM borden WHERE bokningsnr = $boknr AND kundnr = '{$_SESSION['custid']}'");
+	$sql = db_connect("SELECT * FROM borden WHERE bokningsnr = $boknr AND kundnr =
+ '{$_SESSION['custid']}'");
 	$antal = mysql_num_rows($sql);
 	
 	$info['bokningsnr'] = mysql_result($sql, 0, 'bokningsnr');
@@ -280,7 +289,8 @@ if (isset($_GET['accept_old_new_show_state'])){
 	}
 	
 	
-	$sql = db_connect("SELECT * FROM borden WHERE bokningsnr = '0' AND Shownr = '$showid' AND tid = '$timekiller' LIMIT $antal");
+	$sql = db_connect("SELECT * FROM borden WHERE bokningsnr = '0' AND Shownr = '$showid' AND tid =
+ '$timekiller' LIMIT $antal");
 	$antal_lediga = mysql_num_rows($sql);
 	
 	if ($antal_lediga < $antal){
@@ -290,13 +300,17 @@ if (isset($_GET['accept_old_new_show_state'])){
 		exit;
 	}
 	
-	db_connect("UPDATE borden SET bokningsnr = 0, kundnr = 0, antpers = 0, bokningsnrbiljett = 0, betald = 0, bokadtid = 0, min = 0 WHERE bokningsnr = '{$info['bokningsnr']}'");
-	$sql = db_connect("SELECT * FROM borden WHERE bokningsnr = '0' AND Shownr = '$showid' AND tid = '$timekiller' LIMIT $antal");
+	db_connect("UPDATE borden SET bokningsnr = 0, kundnr = 0, antpers = 0, bokningsnrbiljett = 0,
+ betald = 0, bokadtid = 0, min = 0 WHERE bokningsnr = '{$info['bokningsnr']}'");
+	$sql = db_connect("SELECT * FROM borden WHERE bokningsnr = '0' AND Shownr = '$showid' AND tid =
+ '$timekiller' LIMIT $antal");
 	while($row = mysql_fetch_array($sql)){
 	
 		$id = $row['idBorden'];
 		echo $id;
-		db_connect("UPDATE borden SET bokningsnr = '{$info['bokningsnr']}', kundnr = '{$info['kundnr']}', antpers = '{$info['antpers']}', bokningsnrbiljett = '{$info['bokningsnrbiljett']}', betald = '{$info['betald']}', bokadtid = '{$info['bokadtid']}', min = '$timer' WHERE idBorden = '$id'");
+		db_connect("UPDATE borden SET bokningsnr = '{$info['bokningsnr']}', kundnr = '{$info['kundnr']}',
+ antpers = '{$info['antpers']}', bokningsnrbiljett = '{$info['bokningsnrbiljett']}', betald =
+ '{$info['betald']}', bokadtid = '{$info['bokadtid']}', min = '$timer' WHERE idBorden = '$id'");
 		}
 	
 	db_connect("UPDATE servering SET showid = '$showid' WHERE boknr = '{$info['bokningsnr']}'");
@@ -307,7 +321,8 @@ if (isset($_GET['accept_old_new_show_state'])){
 		$new_tabel .=  "Bord: $bord<br>";
 	}
 	
-	echo "result||Datum: $datum||Föreställning: $namn||$tid||<br>Reserverade bord: <br> $new_tabel||<b><br><br>Er bokning är uppdaterad!<br><br></b>";
+	echo "result||Datum: $datum||Föreställning: $namn||$tid||<br>Reserverade bord: <br>
+ $new_tabel||<b><br><br>Er bokning är uppdaterad!<br><br></b>";
 	
 	
 	exit;
@@ -371,7 +386,8 @@ if (isset($_GET['old_show_result_data'])){
 			$timekiller = "P";
 		}
 		
-		$sql = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 AND tid = '$timekiller'");
+		$sql = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 AND tid =
+ '$timekiller'");
 		$antal = mysql_num_rows($sql);
 		$timer_60 = 0;
 		$timer_30 = 0;
@@ -398,17 +414,20 @@ if (isset($_GET['old_show_result_data'])){
 		
 		if ($timer_60 >= $now_bord){
 		
-			$timer_show .= "<input id='radio' name='timer' type='radio' value='60' onClick='timerAndDateOldStatus(60)'>	1 timme f&ouml;re f&ouml;rest&auml;llningen<br>";
+			$timer_show .= "<input id='radio' name='timer' type='radio' value='60'
+ onClick='timerAndDateOldStatus(60)'>	1 timme f&ouml;re f&ouml;rest&auml;llningen<br>";
 		}
 		
 		if ($timer_30 >= $now_bord){
 		
-			$timer_show .= "<input id='timer_30' name='timer' type='radio' value='30' onClick='timerAndDateOldStatus(30)'> 30 min f&ouml;re f&ouml;rest&auml;llningen<br>";
+			$timer_show .= "<input id='timer_30' name='timer' type='radio' value='30'
+ onClick='timerAndDateOldStatus(30)'> 30 min f&ouml;re f&ouml;rest&auml;llningen<br>";
 		}
 
 		if ($timer_00 >= $now_bord){
 		
-			$timer_show .= "<input id='timer_pause' name='timer' type='radio' value='pause' onClick='timerAndDateOldStatus(0)'>	I pausen";
+			$timer_show .= "<input id='timer_pause' name='timer' type='radio' value='pause'
+ onClick='timerAndDateOldStatus(0)'>	I pausen";
 		}		
 	}
 	else{
@@ -440,17 +459,20 @@ if (isset($_GET['old_show_result_data'])){
 		
 		if ($timer_60 >= $now_bord){
 		
-			$timer_show .= "<input id='radio' name='timer' type='radio' value='60' onClick='timerAndDateOldStatus(60)'>	1 timme f&ouml;re f&ouml;rest&auml;llningen<br>";
+			$timer_show .= "<input id='radio' name='timer' type='radio' value='60'
+ onClick='timerAndDateOldStatus(60)'>	1 timme f&ouml;re f&ouml;rest&auml;llningen<br>";
 		}
 		
 		if ($timer_30 >= $now_bord){
 		
-			$timer_show .= "<input id='timer_30' name='timer' type='radio' value='30' onClick='timerAndDateOldStatus(30)'> 30 min f&ouml;re f&ouml;rest&auml;llningen<br>";
+			$timer_show .= "<input id='timer_30' name='timer' type='radio' value='30'
+ onClick='timerAndDateOldStatus(30)'> 30 min f&ouml;re f&ouml;rest&auml;llningen<br>";
 		}
 
 		if ($timer_00 >= $now_bord){
 		
-			$timer_show .= "<input id='timer_pause' name='timer' type='radio' value='pause' onClick='timerAndDateOldStatus(0)'>	I pausen";
+			$timer_show .= "<input id='timer_pause' name='timer' type='radio' value='pause'
+ onClick='timerAndDateOldStatus(0)'>	I pausen";
 		}
 	}
 	
@@ -523,18 +545,22 @@ if (isset($_GET['get_old'])){
 <table width="508" border="0" cellpadding="0" cellspacing="0" class="b_box">
       <tr>
         <td height="16" colspan="2" align="center" valign="top">
-          <p align="center" class="b_box_titel"><span class="style2"><font face="Verdana">Bokning: <strong><?php echo $boknr; ?></strong></font></span></td>
+          <p align="center" class="b_box_titel"><span class="style2"><font face="Verdana">Bokning:
+ <strong><?php echo $boknr; ?></strong></font></span></td>
   </tr>
       <tr>
         <td height="23" colspan="2" align="center" valign="top"><br>
 		<?php 
 			if ($betald > "3"){
 						
-				echo "<div class='green_box'><img src='/bokningar/icon/checkmark.png' width='13' height='12' border='0' title='Bokning Betald'> *Bokningen är betald</div><br><br>";
+				echo "<div class='green_box'><img src='/bokningar/icon/checkmark.png' width='13' height='12'
+ border='0' title='Bokning Betald'> *Bokningen är betald</div><br><br>";
 			}
 			else{
 
-				echo "<div class='red_box'><b>Din bokning är INTE betald&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='?old_pay=$boknr'><img src='bokningar/icon/money.png'> Betala med kort</a></b></div><br><br>";
+				echo "<div class='red_box'><b>Din bokning är INTE betald&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+ href='?old_pay=$boknr'><img src='bokningar/icon/money.png'> Betala med
+ kort</a></b></div><br><br>";
 			 } 
 		?>
 		</td>
@@ -542,7 +568,8 @@ if (isset($_GET['get_old'])){
       <tr>
         <td height="48" colspan="2" align="center" valign="middle" class="b_box">
 		&Auml;ndra tidpunkt eller f&ouml;rest&auml;llning?<br>
-		<div id="old_show_change"><strong><a href="#" onClick="getShowOld()">Klicka h&auml;r</a></strong></div>
+		<div id="old_show_change"><strong><a href="#" onClick="getShowOld()">Klicka
+ h&auml;r</a></strong></div>
 		</td>
       </tr>
       <tr>
@@ -553,7 +580,8 @@ if (isset($_GET['get_old'])){
 		<strong><br><div id="old_bok_datum">Datum: <?php echo $datum; ?> </div></strong>
 		</td>
         <td height="28" align="center" valign="top">
-		<strong><br><div id="old_bok_showname">F&ouml;rest&auml;llning: <?php echo $namn; ?> </div></strong>
+		<strong><br><div id="old_bok_showname">F&ouml;rest&auml;llning: <?php echo $namn; ?>
+ </div></strong>
 		</td>
       </tr>
       <tr>
@@ -573,7 +601,8 @@ if (isset($_GET['get_old'])){
         <td height="43" colspan="2" align="center" valign="middle"><hr></td>
       </tr>
       <tr>
-        <td width="258" height="77" align="center" valign="top"><div class="divbox2" id="old_show_bord"> <strong><br>
+        <td width="258" height="77" align="center" valign="top"><div class="divbox2"
+ id="old_show_bord"> <strong><br>
 		  Reserverade bord:</strong> <br>
 		<?php 
 			$sql = db_connect("SELECT * FROM borden WHERE bokningsnr = '$boknr'");
@@ -604,13 +633,16 @@ if (isset($_GET['get_old'])){
         <td height="2" colspan="2" align="center" valign="top">&nbsp;</td>
       </tr>
       <tr>
-        <td height="9" colspan="2" align="center" valign="top"><img src="Bilder/printer.png" width="16" height="16"><a href="JavaScript:window.print();" class="style1">Skriv ut sidan </a></td>
+        <td height="9" colspan="2" align="center" valign="top"><img src="Bilder/printer.png"
+ width="16" height="16"><a href="JavaScript:window.print();" class="style1">Skriv ut sidan
+ </a></td>
       </tr>
       <tr>
         <td height="18" colspan="2" align="center" valign="top">&nbsp; </td>
       </tr>
       <tr>
-        <td height="18" colspan="2" align="center" valign="top"><img src="Bilder/5-arrow_135.gif" width="12" height="13"><a href="?old" class="style1">G&aring; tillbaka > </a></td>
+        <td height="18" colspan="2" align="center" valign="top"><img src="Bilder/5-arrow_135.gif"
+ width="12" height="13"><a href="?old" class="style1">G&aring; tillbaka > </a></td>
       </tr>
       <tr>
         <td height="18" colspan="2" align="center" valign="top">&nbsp;</td>
@@ -634,14 +666,16 @@ if (isset($_GET['old_change'])){
 	echo "<select name='shows' id='shows'>";
 	echo "<option value='0'>V&auml;lj datum</option>",
 		
-	$sql = db_connect("SELECT * FROM shows WHERE internet = '1' and datum >'2020-08-17' or internet = '5' and datum >'2023-08-18'  ORDER BY datum ASC");
+	$sql = db_connect("SELECT * FROM shows WHERE internet = '1' and datum >'2020-08-17' or internet =
+ '5' and datum >'2023-08-18'  ORDER BY datum ASC");
 	while($row = mysql_fetch_array($sql)){
 		 			
 		echo "<option value='{$row['showid']}'>{$row['datum']}</option>";
 	}
 			
 	echo "</select>";
-	echo "&nbsp;&nbsp;<input type='button' name='Submit' onClick='oldShowResultDate()' value='N&auml;sta'>";
+	echo "&nbsp;&nbsp;<input type='button' name='Submit' onClick='oldShowResultDate()'
+ value='N&auml;sta'>";
 	echo "<br><div id='old_show_result_data'></div><br>";
 	
 	
@@ -672,7 +706,8 @@ if (isset($_GET['getmeny'])){
 
 	if ($bord == "Nej"){
 	
-		echo "error||<img src='Bilder/down.gif.png'><b>Fullbokat Inte tillräckligt med bord för {$_GET['antal']} personer</b>";
+		echo "error||<img src='Bilder/down.gif.png'><b>Fullbokat Inte tillräckligt med bord för
+ {$_GET['antal']} personer</b>";
 		
 		exit;
 	}
@@ -682,7 +717,8 @@ if (isset($_GET['getmeny'])){
 	?>
 		<table width="480" border="0" align="center" cellpadding="0" cellspacing="0" class="b_box">
 		  <tr class="b_box_titel">
-		    <td height="23" colspan="4" class="line">Välj från vår sommarmeny, minst en artikel per person<br>(Vin och starköl serveras endast i pausen)</td>
+		    <td height="23" colspan="4" class="line">Välj från vår sommarmeny, minst en artikel per
+ person<br>(Vin och starköl serveras endast i pausen)</td>
 		    <td class="line">&nbsp;</td>
 		    <td class="line">&nbsp;</td>
 		    <td class="line">&nbsp;</td>
@@ -740,7 +776,9 @@ if (isset($_GET['getmeny'])){
 			}
 			?>
             
-			<input id="prod<?php echo $row['nr']; ?>" name="produkt<?php echo $row['nr']; ?>" value="<?php echo $_POST[$idname]; ?>" type="<?php echo $data_type; ?>" size="2" maxlength="2" onChange="summa()">
+			<input id="prod<?php echo $row['nr']; ?>" name="produkt<?php echo $row['nr']; ?>" value="<?php
+ echo $_POST[$idname]; ?>" type="<?php echo $data_type; ?>" size="2" maxlength="2"
+ onChange="summa()">
             <?php if ($data_type == "text") echo "st"; else echo "&nbsp;"; ?>
             </td>
             <td width="66" class="line">
@@ -754,7 +792,9 @@ if (isset($_GET['getmeny'])){
 		  <tr>
 		  	<td height="30" class="b_box_titel">&nbsp;</td>
 			<td height="30" class="b_box_titel"><div id="totalcost">Summa: 0 Kr</div></td>
-			<td height="30" colspan="3" class="b_box_titel"><span id="numartiklar"><?php echo $_SESSION['bord_num_artiklar']; ?></span> artiklar till <?php echo $_SESSION['bord_antal']; ?> personer </td>
+			<td height="30" colspan="3" class="b_box_titel"><span id="numartiklar"><?php echo
+ $_SESSION['bord_num_artiklar']; ?></span> artiklar till <?php echo $_SESSION['bord_antal']; ?>
+ personer </td>
 		  </tr>
         </table>
 		<br>
@@ -818,7 +858,8 @@ if (isset($_GET['bokningsdata'])){
 	header('Content-type: text/html; charset=iso8859-1');
 	sleep(1);
 	
-	$del = isset($_SESSION['bord_show']) ? "<a href='?change_day'><img src='/images/cross.png' title='Byt F&ouml;rest&auml;llning' width='16' height='16'></a>":"&nbsp;";
+	$del = isset($_SESSION['bord_show']) ? "<a href='?change_day'><img src='/images/cross.png'
+ title='Byt F&ouml;rest&auml;llning' width='16' height='16'></a>":"&nbsp;";
 	
 	echo "result||";
 		
@@ -844,10 +885,12 @@ if (isset($_GET['bokningsdata'])){
 				$today = date("Y-m-d"); 
 				$today .= " 19 00";
 				
-				$sql = db_connect("SELECT * FROM shows WHERE internet = '1' and datum >'".$today."' or internet = '5' and datum >'".$today."'  ORDER BY datum ASC");	
+				$sql = db_connect("SELECT * FROM shows WHERE internet = '1' and datum >'".$today."' or internet
+ = '5' and datum >'".$today."'  ORDER BY datum ASC");	
 			}			
 			else		
-				$sql = db_connect("SELECT * FROM shows WHERE internet = '1' and datum >'2020-08-17' or internet = '5' and datum >'2020-08-17'  ORDER BY datum ASC");
+				$sql = db_connect("SELECT * FROM shows WHERE internet = '1' and datum >'2020-08-17' or internet
+ = '5' and datum >'2020-08-17'  ORDER BY datum ASC");
 			
 			
 			while($row = mysql_fetch_array($sql)){
@@ -938,8 +981,11 @@ if (isset($_GET['help'])){
 	$help['email'] = "Mail adressen som ni använde vid bokningen av föreställnings  biljetter";
 	$help['time'] = "";
 	$help['pers'] = "";
-	$help['meny'] = "Du måste välja minst en artikel från Sommarmenyn.<br><br> För att se en bild av artikeln dra musen över namnet på artikel";
-	$help['betala'] = "Klicka på betala för att gå vidare till betalningen med kreditkort/bankkort<br> eller betala via bankgiro. <br><br> <b>Obs ! Din betalning via bankgiro måste vara oss tillhanda inom 5 dagar,<br> för att bordreservationen säkert ska finnas kvar.<b>";
+	$help['meny'] = "Du måste välja minst en artikel från Sommarmenyn.<br><br> För att se en bild av
+ artikeln dra musen över namnet på artikel";
+	$help['betala'] = "Klicka på betala för att gå vidare till betalningen med kreditkort/bankkort<br>
+ eller betala via bankgiro. <br><br> <b>Obs ! Din betalning via bankgiro måste vara oss tillhanda
+ inom 5 dagar,<br> för att bordreservationen säkert ska finnas kvar.<b>";
 	
 	//Return help
 	echo $help[$how];
@@ -947,7 +993,8 @@ if (isset($_GET['help'])){
 	exit;
 }
 
-//Sommarmeny (Ver 0.2)///////////////////////////////////////////////////////////////////////////////////////////
+//Sommarmeny (Ver
+ 0.2)///////////////////////////////////////////////////////////////////////////////////////////
 
 
 function sendmail($email, $boknr, $text){
@@ -1026,7 +1073,9 @@ function bankgiro($boknr){
 		
 		if ($summa > 0){
 		$datum = date("Y-m-d");
-			db_connect("INSERT INTO kassa (datum, saltkr, moms, betalningssatt, bokningsnr, text, presnr, tidstampling, showid, kommentar, userid, dator, kontering, T_K, custid) VALUES ('$datum', '$summa', '0', '9', $boknr, 'servering', '', NOW(), '0', '', '992', '', '', 1, '$custid')");
+			db_connect("INSERT INTO kassa (datum, saltkr, moms, betalningssatt, bokningsnr, text, presnr,
+ tidstampling, showid, kommentar, userid, dator, kontering, T_K, custid) VALUES ('$datum',
+ '$summa', '0', '9', $boknr, 'servering', '', NOW(), '0', '', '992', '', '', 1, '$custid')");
 			
 			$status = "good";
 		}
@@ -1055,14 +1104,17 @@ function bord_boka($antal, $sida, $tid, $kundnr, $boknr, $biljetnr, $payway){
 	
 	wait("borden");
 	
-	$sql = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 AND VH = '$sida' AND tid = '$tid' LIMIT $antal_bord");
+	$sql = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 AND VH = '$sida'
+ AND tid = '$tid' LIMIT $antal_bord");
 	
 	$toma_bord = mysql_num_rows($sql);
 		
 	if ($toma_bord == $antal_bord){
 		while($row = mysql_fetch_array($sql)){
 			
-			db_connect("UPDATE borden SET bokningsnr = '$boknr', kundnr = '$kundnr', antpers = '$antal', bokningsnrbiljett = '$biljetnr', betald = '$payway', bokadtid = NOW(), min = '$sqltid' WHERE idBorden = '{$row['idBorden']}'");
+			db_connect("UPDATE borden SET bokningsnr = '$boknr', kundnr = '$kundnr', antpers = '$antal',
+ bokningsnrbiljett = '$biljetnr', betald = '$payway', bokadtid = NOW(), min = '$sqltid' WHERE
+ idBorden = '{$row['idBorden']}'");
 			}
 	}
 	
@@ -1074,11 +1126,14 @@ function bord_boka($antal, $sida, $tid, $kundnr, $boknr, $biljetnr, $payway){
 		else  $sida = "H";
 		
 		//Sätt Bord
-		$sql = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 AND VH = '$sida' AND tid = '$tid' LIMIT $antal_bord");
+		$sql = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 AND VH = '$sida'
+ AND tid = '$tid' LIMIT $antal_bord");
 		
 		while($row = mysql_fetch_array($sql)){
 			echo $row['idBorden'];
-			db_connect("UPDATE borden SET bokningsnr = '$boknr', kundnr = '$kundnr', antpers = '$antal', bokningsnrbiljett = '$biljetnr', betald = '$payway', bokadtid = NOW(), min = '$sqltid' WHERE idBorden = '{$row['idBorden']}'");
+			db_connect("UPDATE borden SET bokningsnr = '$boknr', kundnr = '$kundnr', antpers = '$antal',
+ bokningsnrbiljett = '$biljetnr', betald = '$payway', bokadtid = NOW(), min = '$sqltid' WHERE
+ idBorden = '{$row['idBorden']}'");
 			
 		}
 	}
@@ -1095,10 +1150,12 @@ function bord_boka($antal, $sida, $tid, $kundnr, $boknr, $biljetnr, $payway){
 function bord_check($antal, $sida, $tid, $showid){
 	
 	//Rätt Sida
-	$sql = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 AND VH = '$sida' AND tid = '$tid'");
+	$sql = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 AND VH = '$sida'
+ AND tid = '$tid'");
 	
 	//Fel Sida
-	$else = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 AND VH != '$sida' AND tid = '$tid'");
+	$else = db_connect("SELECT * FROM borden WHERE Shownr = '$showid' AND antpers = 0 AND VH !=
+ '$sida' AND tid = '$tid'");
 	
 	//Data
 	$antal_bord = ceil($antal / 3);
@@ -1127,7 +1184,8 @@ function bord_check($antal, $sida, $tid, $showid){
 
 //Kontrol av sida i salongen
 function sido_check($boknr){
-	$sql = db_connect("SELECT seatid FROM bokings WHERE bokningsnr = '$boknr' ORDER BY seatid ASC LIMIT 1");
+	$sql = db_connect("SELECT seatid FROM bokings WHERE bokningsnr = '$boknr' ORDER BY seatid ASC
+ LIMIT 1");
 	
 	$seat = mysql_result($sql, 0, 'seatid');
 	$plats = $seat;
@@ -1220,7 +1278,8 @@ function done($boknr){
 			$done['name'] = shows($done['showid'], "namn");
 			
 			//Convert time from sql to html
-			$tider = array("0" => "I pausen av föreställningen", "30" => "30 min innan föreställningen", "60" => "1 timme innan föreställningen");
+			$tider = array("0" => "I pausen av föreställningen", "30" => "30 min innan föreställningen",
+ "60" => "1 timme innan föreställningen");
 			$done['tid'] = $tider[$done['tid']];
 			
 			//Hämta sommar meny
@@ -1296,7 +1355,14 @@ function servering($payway){
 				
 			if($info['antal'] > 0){
 				
-				db_connect("INSERT INTO servering (nr, boknr, showid, antpers, produkt, produktnr, kr, moms, summa, totsum, vg, t_k, tid, betalsatt, antal, kundnr, kundnamn, min) VALUES ('{$info['nr']}', '{$info['boknr']}',  '{$info['showid']}', '{$info['antpers']}', '{$info['produkt']}', '{$info['produktnr']}', '{$info['kr']}', '{$info['moms']}', '{$info['summa']}', '{$info['totsum']}', '0', '{$info['t_k']}', NOW(), '{$info['betalsatt']}', '{$info['antal']}', '{$info['custid']}', '{$info['kund_namn']}', '$tid')");
+				db_connect("INSERT INTO servering (nr, boknr, showid, antpers, produkt, produktnr, kr, moms,
+ summa, totsum, vg, t_k, tid, betalsatt, antal, kundnr, kundnamn, min) VALUES ('{$info['nr']}',
+ '{$info['boknr']}',  '{$info['showid']}', '{$info['antpers']}', '{$info['produkt']}',
+ '{$info['produktnr']}', '{$info['kr']}', '{$info['moms']}', '{$info['summa']}',
+ '{$info['totsum']}', '0', '{$info['t_k']}', NOW(), '{$info['betalsatt']}', '{$info['antal']}',
+ '{$info['custid']}',
+ '{$info['kund_namn']}',
+ '$tid')");
 			}
 
 		}
@@ -1991,7 +2057,8 @@ while ($row = mysql_fetch_array($sql)){
 	
 		$var = $var."id".$row['nr'];
 		$id = $id."id{$row['nr']} = document.getElementById('prod{$row['nr']}').value*{$row['pris']};\n";
-		$antalid = $antalid."var antal{$row['nr']} = document.getElementById('prod{$row['nr']}').value*1;\n";
+		$antalid = $antalid."var antal{$row['nr']} =
+ document.getElementById('prod{$row['nr']}').value*1;\n";
 		$antal_artiklar = $antal_artiklar."antal{$row['nr']}";
 		$summa = $summa."id{$row['nr']}";
 	}
@@ -2000,7 +2067,8 @@ while ($row = mysql_fetch_array($sql)){
 	
 		$var = $var."id".$row['nr'].",";
 		$id = $id."id{$row['nr']} = document.getElementById('prod{$row['nr']}').value*{$row['pris']};\n";
-		$antalid = $antalid."var antal{$row['nr']} = document.getElementById('prod{$row['nr']}').value*1;\n";
+		$antalid = $antalid."var antal{$row['nr']} =
+ document.getElementById('prod{$row['nr']}').value*1;\n";
 		$antal_artiklar = $antal_artiklar."antal{$row['nr']}+";
 		$summa = $summa."id{$row['nr']}+";
 	}
@@ -2081,11 +2149,13 @@ function formCheck(){
 <?php 
 if (isset($_SESSION['custid'])) {
 
-	echo "<body onLoad='ReuqestData()' bgcolor=#FFFFFF background='Bilder/bakgrundeva.gif' link='#000000' alink='#000000' vlink='#000000'>";
+	echo "<body onLoad='ReuqestData()' bgcolor=#FFFFFF background='Bilder/bakgrundeva.gif'
+ link='#000000' alink='#000000' vlink='#000000'>";
 } 
 else { ?>
 
-	<body onLoad='' bgcolor=#FFFFFF background='Bilder/bakgrundeva.gif' link='#000000' alink='#000000' vlink='#000000'>
+	<body onLoad='' bgcolor=#FFFFFF background='Bilder/bakgrundeva.gif' link='#000000' alink='#000000'
+ vlink='#000000'>
 <?php
 } 
 ?>
@@ -2115,7 +2185,8 @@ else { ?>
 
 
 <form action="" method="post" onSubmit="return formCheck(this)">
-	<?php if (!isset($_REQUEST['done']) && !isset($_REQUEST['bankgiro']) && !isset($_REQUEST['old'])) { ?>
+	<?php if (!isset($_REQUEST['done']) && !isset($_REQUEST['bankgiro']) && !isset($_REQUEST['old']))
+ { ?>
 
 	<table width="990" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -2125,7 +2196,9 @@ else { ?>
     <td width="613" align="center" valign="top">
 		
 		<div id="head" class="head_box">
-			<strong><font face="Verdana" color="#000066"><span class="style6">Bokningen är inte öppnad ännu<br>Bokning av bord i Teatercaf&eacute;et och best&auml;llning fr&aring;n menyn</span></font></strong>
+			<strong><font face="Verdana" color="#000066"><span class="style6">Bokningen är inte öppnad
+ ännu<br>Bokning av bord i Teatercaf&eacute;et och best&auml;llning fr&aring;n
+ menyn</span></font></strong>
 			<br>
 			<br>
 			<p>Boka bord och best&auml;ll fr&aring;n v&aring;r sommarmeny, <br>
@@ -2138,7 +2211,8 @@ else { ?>
 <!-- 
 	  <table width="490" border="0" cellpadding="0" cellspacing="0" bgcolor="#F7F7F7" class="b_box">
         <tr>
-          <td height="20" colspan="3" class="b_box_titel"> Har du bokat biljetter kan du logga in med bokningsnumret h&auml;r:</td>
+          <td height="20" colspan="3" class="b_box_titel"> Har du bokat biljetter kan du logga in
+ med bokningsnumret h&auml;r:</td>
           </tr>
         <tr>
           <td width="9">&nbsp;</td>
@@ -2154,7 +2228,8 @@ else { ?>
 		  <a href="?width=375&help=boknr" class="jTip" id="one" name="Boknings Nummer">?</a>
 		  </span>		  </td>
           <td> E-post <br>
-            <input type="text" name="mail_bokning" id="mail_bokning" onKeyUp="startRequest(this.value)" />
+            <input type="text" name="mail_bokning" id="mail_bokning"
+ onKeyUp="startRequest(this.value)" />
 		  <span class="formInfo">
 		  <a href="?width=375&help=boknr" class="jTip" id="one" name="Boknings Nummer">?</a>
 		  </span>			</td>
@@ -2162,14 +2237,16 @@ else { ?>
         <tr align="center">
           <td>&nbsp;</td>
           <td height="60"><div id="result_bokning"></div></td>
-          <td height="60" align="center"><input type="button" onClick="loginBokning()" name="Button" value="H&auml;mta bokningsinfo"></td>
+          <td height="60" align="center"><input type="button" onClick="loginBokning()"
+ name="Button" value="H&auml;mta bokningsinfo"></td>
         </tr>
       </table>
 -->
 	  <br>
 	  <table width="490" border="0" cellpadding="0" cellspacing="0" bgcolor="#F7F7F7" class="b_box">
         <tr>
-          <td height="20" colspan="3" class="b_box_titel"><strong>Har du ett kundnummer kan du logga in med kundnummer eller lösenord h&auml;r:</strong></td>
+          <td height="20" colspan="3" class="b_box_titel"><strong>Har du ett kundnummer kan du
+ logga in med kundnummer eller lösenord h&auml;r:</strong></td>
           </tr>
         <tr>
           <td width="10">&nbsp;</td>
@@ -2184,7 +2261,8 @@ else { ?>
 		  <a href="?width=375&help=boknr" class="jTip" id="one" name="Boknings Nummer">?</a>
 		  </span>			</td>
           <td>E-post <br> 
-            <input type="text" name="mail_kund" id="mail_kund" onKeyUp="startRequest(this.value)" />
+            <input type="text" name="mail_kund" id="mail_kund" onKeyUp="startRequest(this.value)"
+ />
 		 <span class="formInfo">
 		  <a href="?width=375&help=boknr" class="jTip" id="one" name="Boknings Nummer">?</a>
 		  </span>			</td>
@@ -2193,7 +2271,8 @@ else { ?>
           <td>&nbsp;</td>
           <td height="60"><div id="result_kund"></div><br>
             <a href="/userlogin.php?password">Glömt Er kundnummer? > </a></td>
-          <td height="60" align="center"><input type="button" name="kundinfo" onClick="loginKund()" value="H&auml;mta kundinfo"></td>
+          <td height="60" align="center"><input type="button" name="kundinfo" onClick="loginKund()"
+ value="H&auml;mta kundinfo"></td>
         </tr>
       </table>
 	  <br>
@@ -2270,7 +2349,8 @@ else { ?>
 		   ?>
 			<tr class="b_box_extra">
 			  <td height="29" class="b_box_extra">&nbsp;</td>
-			  <td align="center" class="b_box_extra"><p class="style1">Du har <?php echo $antal_gammla; ?> tidigare bokningar,  <a href="?old">Visa > </a> </p></td>
+			  <td align="center" class="b_box_extra"><p class="style1">Du har <?php echo $antal_gammla; ?>
+ tidigare bokningar,  <a href="?old">Visa > </a> </p></td>
 			  <td class="b_box_extra">&nbsp;</td>
 			  </tr>
 			  <?php } ?>
@@ -2282,7 +2362,8 @@ else { ?>
 	<div id="result_reservera"></div>	
 	<div id="meny_data" class="kund_id_box"></div>
 	</td>
-    <td width="236" align="center" valign="top"><span class="style1"><br><br><a href="userlogin.php" class="style7"> Tillbaka > </a> </span></td>
+    <td width="236" align="center" valign="top"><span class="style1"><br><br><a
+ href="userlogin.php" class="style7"> Tillbaka > </a> </span></td>
   </tr>
 </table>
 </form>
@@ -2293,10 +2374,13 @@ else { ?>
     <td width="142"><br>
       <font face="Verdana" size="2"><br>
     <img border="1" src="Bilder/logga1.gif" width="110" height="123"></font><br></td>
-    <td width="612"><div id="head" class="head_box"> <strong><font face="Verdana" color="#000066"><span class="style6">Reservering av bord och best&auml;llning fr&aring;n Sommarmenyn.</span></font></strong> <br>
+    <td width="612"><div id="head" class="head_box"> <strong><font face="Verdana"
+ color="#000066"><span class="style6">Reservering av bord och best&auml;llning fr&aring;n
+ Sommarmenyn.</span></font></strong> <br>
           <br>
 	<p>Boka bord och best&auml;ll fr&aring;n v&aring;r sommarmeny, <br>
-		    s&aring; &auml;r allt framdukat och klart n&auml;r du kommer till Teatercaf&eacute;et.</p>   </div>
+		    s&aring; &auml;r allt framdukat och klart n&auml;r du kommer till Teatercaf&eacute;et.</p>  
+ </div>
 	<div id="kund_id" class="kund_id_box">
 	<?php if (!isset($_SESSION['custid'])) { ?>
 
@@ -2332,7 +2416,8 @@ else { ?>
  		   </tr>
 			<tr>
 			  <td height="29" class="b_box_extra">&nbsp;</td>
-			  <td align="center" class="b_box_extra"><a href="bord_test.php"><strong>Tillbaka till boka bord > </strong> </a></td>
+			  <td align="center" class="b_box_extra"><a href="bord_test.php"><strong>Tillbaka till boka bord
+ > </strong> </a></td>
 			  <td class="b_box_extra">&nbsp;</td>
 		    </tr>
 		  </table>
@@ -2342,12 +2427,16 @@ else { ?>
 		<div id="old_bok">
 			<table width="550" border="0" cellpadding="0" cellspacing="0" class="b_box">
 				<tr>
-					<td width="275" align="center" height="30"><img src="/bokningar/icon/money.png" width="16" height="16" border="0" title="Betala Bokning"> Betala bokning med kort</td>
-					<td width="275" align="center" height="30"><img src='/bokningar/icon/checkmark.png' width='13' height='12' border='0' title='Bokning Betald'> Bokning är betald*</td>
+					<td width="275" align="center" height="30"><img src="/bokningar/icon/money.png" width="16"
+ height="16" border="0" title="Betala Bokning"> Betala bokning med kort</td>
+					<td width="275" align="center" height="30"><img src='/bokningar/icon/checkmark.png' width='13'
+ height='12' border='0' title='Bokning Betald'> Bokning är betald*</td>
 				</tr>
 				<tr>
-					<td width="275" align="center" height="30" class="red_box">Rödmarkerade rader är obetalda bokningar</td>
-					<td width="275" align="center" height="30"><img src='/images/cross.png' width='16' height='16' border='0'> Makulera obetald bokning</td>
+					<td width="275" align="center" height="30" class="red_box">Rödmarkerade rader är obetalda
+ bokningar</td>
+					<td width="275" align="center" height="30"><img src='/images/cross.png' width='16' height='16'
+ border='0'> Makulera obetald bokning</td>
 				</tr>
 			</table>
 			<br>	
@@ -2372,29 +2461,39 @@ else { ?>
 						if (!isset($boknr_go[$boknr]) && $show_info[$showid] >= date("Y-m-d")){
 					?>
  				 	<tr class="<?php if ($row['betald'] < "4") echo "red_box"; else echo "green_box"; ?>">
- 				   		<td width="120" height="30" class="<?php if ($row['betald'] < "4") echo "red_box"; else echo "green_box"; ?>">Bokningsnr:<?php echo $row['bokningsnr']; ?> | </td>
-				    	<td width="175" height="30" class="<?php if ($row['betald'] < "4") echo "red_box"; else echo "green_box"; ?>">Datum: <b><?php echo $show_info[$showid]; ?> | </b></td>
- 					    <td width="125" height="30" class="<?php if ($row['betald'] < "4") echo "red_box"; else echo "green_box"; ?>">Antal personer: <?php echo $row['antpers']; ?> |</td>
-	 					    <td width="95" height="30" align="center" class="<?php if ($row['betald'] < "4") echo "red_box"; else echo "green_box"; ?>"><span class="style1"><a href="#" onClick="oldBord('<?php echo $row['bokningsnr']; ?>')">Visa bokning |</a></span></td>
- 				 	    <td align="center" class="<?php if ($row['betald'] < "4") echo "red_box"; else echo "green_box"; ?>">
+ 				   		<td width="120" height="30" class="<?php if ($row['betald'] < "4") echo "red_box"; else
+ echo "green_box"; ?>">Bokningsnr:<?php echo $row['bokningsnr']; ?> | </td>
+				    	<td width="175" height="30" class="<?php if ($row['betald'] < "4") echo "red_box"; else
+ echo "green_box"; ?>">Datum: <b><?php echo $show_info[$showid]; ?> | </b></td>
+ 					    <td width="125" height="30" class="<?php if ($row['betald'] < "4") echo "red_box"; else
+ echo "green_box"; ?>">Antal personer: <?php echo $row['antpers']; ?> |</td>
+	 					    <td width="95" height="30" align="center" class="<?php if ($row['betald'] < "4") echo
+ "red_box"; else echo "green_box"; ?>"><span class="style1"><a href="#" onClick="oldBord('<?php
+ echo $row['bokningsnr']; ?>')">Visa bokning |</a></span></td>
+ 				 	    <td align="center" class="<?php if ($row['betald'] < "4") echo "red_box"; else echo
+ "green_box"; ?>">
 						<?php 
 						if ($row['betald'] > "3"){
 						
-							echo "<img src='/bokningar/icon/checkmark.png' width='13' height='12' border='0' title='Bokning Betald'>";
+							echo "<img src='/bokningar/icon/checkmark.png' width='13' height='12' border='0'
+ title='Bokning Betald'>";
 						}
 						else{
 						?>
-						<a href="?old_pay=<?php echo $row['bokningsnr']; ?>"><img src="/bokningar/icon/money.png" width="16" height="16" border="0" title="Betala Bokning"></a>
+						<a href="?old_pay=<?php echo $row['bokningsnr']; ?>"><img src="/bokningar/icon/money.png"
+ width="16" height="16" border="0" title="Betala Bokning"></a>
 						<?php } ?>
 						</td>
-					    <td align="center" class="<?php if ($row['betald'] < "4") echo "red_box"; else echo "green_box"; ?>">						<?php 
+					    <td align="center" class="<?php if ($row['betald'] < "4") echo "red_box"; else echo
+ "green_box"; ?>">						<?php 
 						if ($row['betald'] > "3"){
 						
 							echo "";
 						}
 						else{
 						?>
-						<a href="?del_old_bord=<?php echo $row['bokningsnr']; ?>"><img src="/images/cross.png" width="16" height="16" border="0" title="Ta bort Bokning"></a>
+						<a href="?del_old_bord=<?php echo $row['bokningsnr']; ?>"><img src="/images/cross.png"
+ width="16" height="16" border="0" title="Ta bort Bokning"></a>
 						<?php } ?></td>
  				 	</tr>
 				 	<?php 
@@ -2411,7 +2510,8 @@ else { ?>
 
 	</div>
 	</td>
-    <td width="226"><span class="style1"><br><br><a href="bord_test.php" class="style7"> Tillbaka > </a></span></td>
+    <td width="226"><span class="style1"><br><br><a href="bord_test.php" class="style7"> Tillbaka >
+ </a></span></td>
   </tr>
 </table>
 
@@ -2425,7 +2525,9 @@ else { ?>
             <br>
             <img border="1" src="Bilder/logga1.gif" width="110" height="123"></font>          </td>
         <td height="16" colspan="2" align="center" valign="top">
-        <p align="center"><span class="head_box"><strong><font face="Verdana" color="#000066"><span class="style6">Reservering av bord och best&auml;llning fr&aring;n Sommarmenyn.</span></font></strong></span></td>
+        <p align="center"><span class="head_box"><strong><font face="Verdana" color="#000066"><span
+ class="style6">Reservering av bord och best&auml;llning fr&aring;n
+ Sommarmenyn.</span></font></strong></span></td>
         <td width="218" rowspan="19" align="left" valign="top"><p class="style1"><br>
           <br>
           <br>
@@ -2437,13 +2539,16 @@ else { ?>
         </td>
       </tr>
       <tr>
-        <td height="23" colspan="2" align="center" valign="top"><br>          <br>          <img src="Bilder/up.gif.png" width="16" height="16"><span class="style1"> Reservation  av bord &auml;r klar</span><br>
+        <td height="23" colspan="2" align="center" valign="top"><br>          <br>          <img
+ src="Bilder/up.gif.png" width="16" height="16"><span class="style1"> Reservation  av bord &auml;r
+ klar</span><br>
 Er best&auml;llning &auml;r <strong>BETALD</strong><br>
           <br>          <br>
         <hr></td>
       </tr>
       <tr>
-        <td height="48" colspan="2" align="center" valign="middle"><span class="style1">Bokningsnr: <?php echo $done['boknr']; ?></span></td>
+        <td height="48" colspan="2" align="center" valign="middle"><span class="style1">Bokningsnr:
+ <?php echo $done['boknr']; ?></span></td>
       </tr>
       <tr>
         <td height="12" colspan="2" align="center" valign="top"><hr></td>
@@ -2458,7 +2563,8 @@ Er best&auml;llning &auml;r <strong>BETALD</strong><br>
         <td height="30" colspan="2" align="center" valign="middle"><hr></td>
       </tr>
       <tr>
-        <td height="51" colspan="2" align="center" valign="middle"><span class="style1">Tid: <?php echo $done['tid']; ?><br>
+        <td height="51" colspan="2" align="center" valign="middle"><span class="style1">Tid: <?php
+ echo $done['tid']; ?><br>
             <br>
 Antal personer: <?php echo $done['pers']; ?> st </span></td>
       </tr>
@@ -2496,20 +2602,26 @@ Antal personer: <?php echo $done['pers']; ?> st </span></td>
         <td height="2" colspan="2" align="center" valign="top">&nbsp;</td>
       </tr>
       <tr>
-        <td height="2" colspan="2" align="center" valign="top"><p>Vi skickar ett mail som kvitto p&aring; din betalning. <br>
-          V&auml;nligen ta med denna utskrift eller kvittot som kommer med e-post. </p>        </td>
+        <td height="2" colspan="2" align="center" valign="top"><p>Vi skickar ett mail som kvitto
+ p&aring; din betalning. <br>
+          V&auml;nligen ta med denna utskrift eller kvittot som kommer med e-post. </p>       
+ </td>
       </tr>
       <tr>
         <td height="5" colspan="2" align="center" valign="top">&nbsp;</td>
       </tr>
       <tr>
-        <td height="9" colspan="2" align="center" valign="top"><img src="Bilder/printer.png" width="16" height="16"><a href="JavaScript:window.print();" class="style1">Skriv ut sidan </a></td>
+        <td height="9" colspan="2" align="center" valign="top"><img src="Bilder/printer.png"
+ width="16" height="16"><a href="JavaScript:window.print();" class="style1">Skriv ut sidan
+ </a></td>
       </tr>
       <tr>
         <td height="18" colspan="2" align="center" valign="top">&nbsp; </td>
       </tr>
       <tr>
-        <td height="18" colspan="2" align="center" valign="top"><img src="Bilder/5-arrow_135.gif" width="12" height="13"><a href="https://www.evarydberg.se" class="style1">G&aring; tillbaka till startsidan > </a></td>
+        <td height="18" colspan="2" align="center" valign="top"><img src="Bilder/5-arrow_135.gif"
+ width="12" height="13"><a href="https://www.evarydberg.se" class="style1">G&aring; tillbaka till
+ startsidan > </a></td>
       </tr>
       <tr>
         <td height="18" colspan="2" align="center" valign="top">&nbsp;</td>
@@ -2526,7 +2638,9 @@ Antal personer: <?php echo $done['pers']; ?> st </span></td>
             <br>
             <img border="1" src="Bilder/logga1.gif" width="110" height="123"></font>          </td>
         <td height="16" colspan="2" align="center" valign="top">
-        <p align="center"><span class="head_box"><strong><font face="Verdana" color="#000066"><span class="style6">Reservering av bord och best&auml;llning fr&aring;n Sommarmenyn.</span></font></strong></span></td>
+        <p align="center"><span class="head_box"><strong><font face="Verdana" color="#000066"><span
+ class="style6">Reservering av bord och best&auml;llning fr&aring;n
+ Sommarmenyn.</span></font></strong></span></td>
         <td width="218" rowspan="19" align="left" valign="top"><p class="style1"><br>
           <br>
           <br>
@@ -2539,19 +2653,22 @@ Antal personer: <?php echo $done['pers']; ?> st </span></td>
       </tr>
       <tr>
         <td height="23" colspan="2" align="center" valign="top"><br>          <br>          
-        <img src="Bilder/up.gif.png" width="16" height="16"><span class="style1"> Bokningen &auml;r registrerad </span><br><br>
+        <img src="Bilder/up.gif.png" width="16" height="16"><span class="style1"> Bokningen &auml;r
+ registrerad </span><br><br>
           <br>          <br>
         <hr></td>
       </tr>
       <tr>
-        <td height="48" colspan="2" align="center" valign="middle"><span class="style1">Bokningsnr: <?php echo $_GET['bankgiro']; ?></span></td>
+        <td height="48" colspan="2" align="center" valign="middle"><span class="style1">Bokningsnr:
+ <?php echo $_GET['bankgiro']; ?></span></td>
       </tr>
       <tr>
         <td height="12" colspan="2" align="center" valign="top"><hr></td>
       </tr>
       <tr>
         <td height="28" colspan="2" align="center" valign="top"><p><strong><br>
-        </strong><strong> Tack f&ouml;r din reservation av Bord och best&auml;llning fr&aring;n serveringen. <br>
+        </strong><strong> Tack f&ouml;r din reservation av Bord och best&auml;llning fr&aring;n
+ serveringen. <br>
         <br>
         <br>
         Du f&aring;r strax ett mail med instruktioner hur du betalar din best&auml;llning. <br>
@@ -2572,7 +2689,9 @@ Antal personer: <?php echo $done['pers']; ?> st </span></td>
         <td height="18" colspan="2" align="center" valign="middle">&nbsp;</td>
       </tr>
       <tr>
-        <td height="18" colspan="2" align="center" valign="middle"><img src="Bilder/5-arrow_135.gif" width="12" height="13"><a href="https://www.evarydberg.se" class="style1">G&aring; tillbaka till startsidan > </a></td>
+        <td height="18" colspan="2" align="center" valign="middle"><img
+ src="Bilder/5-arrow_135.gif" width="12" height="13"><a href="https://www.evarydberg.se"
+ class="style1">G&aring; tillbaka till startsidan > </a></td>
       </tr>
       <tr>
         <td width="286" height="18" align="center" valign="top">&nbsp;</td>
